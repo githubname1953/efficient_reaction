@@ -29,7 +29,8 @@ public:
         inline node* get_root(){return root;}          //getter method for accessing root
 
         void accept(int);              //method to accept values to be inserted
-        node* insert(node*,node*);  //method to insert node in the binary tree
+        node* insert(node*,node*);		//method to insert node in the binary tree
+		void delete(node*);
         void display(node*);        //method to display the tree in InOrder traversal
 
         int height(node*);          //method to get height of a given node
