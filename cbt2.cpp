@@ -16,7 +16,7 @@ using namespace std;
 
 struct node
 {
-    double data;           //field to store the value of the element
+    int data;          //field to store the value of the element
     node *left,*right;  //link field to the child nodes
 };
 
@@ -80,9 +80,13 @@ void cbt :: accept(int t)
 node* cbt :: insert(node* r,node* t)
 {
     int b = bal(r);
+    t->left = NULL;
+    t->right = NULL;
     //Inserting a node in the tree
     if(r == NULL)
+    {
         return t;
+    }    
     else if(b==0 && check(r->right))  //Condition to insert node in the right sub-tree
     {
         r->data += t->data; 
