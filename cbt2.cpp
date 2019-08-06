@@ -16,9 +16,8 @@ using namespace std;
 
 struct node
 {
-    int data;           //field to store the value of the element
+    double data;           //field to store the value of the element
     node *left,*right;  //link field to the child nodes
-      //allowing class cbt to access private members of class node
 };
 
 struct  cbt
@@ -53,8 +52,8 @@ bool cbt :: check(node *r)
     if(r == NULL)
         return false;
     bool x = check(r->left);
-        if(bal(r))
-            return true;
+    if(bal(r))
+        return true;
     bool y = check(r->right);
 
     return x||y;    //If any node present with balance factor > 0
@@ -74,7 +73,7 @@ void cbt :: accept(int t)
         cin>>temp->data;
 
         //inserting the current node in the tree
-        root = insert(root,temp);
+        root = insert(root,temp); 
     }
 }
 
@@ -84,13 +83,25 @@ node* cbt :: insert(node* r,node* t)
     if(r == NULL)
         return t;
     else if(bal(r)==0 && check(r->right))  //Condition to insert node in the right sub-tree
+    {
+        r->data += t->data; 
         r->right = insert(r->right,t);
+    }
     else if(bal(r)==0)                      //condition to insert node in the left sub-tree
+    {
+        r->data += t->data;
         r->left = insert(r->left,t);
+    }
     else if(bal(r)==1 && check(r->left))   //condition to insert node in the left sub-tree
+    {
+        r->data += t->data;
         r->left = insert(r->left,t);
+    }
     else if(bal(r)==1)
-        r->right = insert(r->right,t);      //condition to insert node in right sub-tree
+    {
+        r->data += t->data;    
+        r->right = insert(r->right,t);
+    }      //condition to insert node in right sub-tree
 
     return r;
 }
