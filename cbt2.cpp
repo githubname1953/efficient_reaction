@@ -79,25 +79,26 @@ void cbt :: accept(int t)
 
 node* cbt :: insert(node* r,node* t)
 {
+    int b = bal(r);
     //Inserting a node in the tree
     if(r == NULL)
         return t;
-    else if(bal(r)==0 && check(r->right))  //Condition to insert node in the right sub-tree
+    else if(b==0 && check(r->right))  //Condition to insert node in the right sub-tree
     {
         r->data += t->data; 
         r->right = insert(r->right,t);
     }
-    else if(bal(r)==0)                      //condition to insert node in the left sub-tree
+    else if(b==0)                      //condition to insert node in the left sub-tree
     {
         r->data += t->data;
         r->left = insert(r->left,t);
     }
-    else if(bal(r)==1 && check(r->left))   //condition to insert node in the left sub-tree
+    else if(b==1 && check(r->left))   //condition to insert node in the left sub-tree
     {
         r->data += t->data;
         r->left = insert(r->left,t);
     }
-    else if(bal(r)==1)
+    else if(b==1)
     {
         r->data += t->data;    
         r->right = insert(r->right,t);
