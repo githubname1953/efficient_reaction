@@ -50,5 +50,13 @@ struct cbt
             tree[depth][i/2] += v[i].data;
             v[i].loc = i/2;
         }
+
+        for(int i = depth-1; i >= 0; i--)
+        {
+            for(int j = 0; j < tree[i].size(); j++)
+            {
+                tree[i][j] = tree[i+1][2*j] + tree[i+1][2*j + 1];
+            }
+        }
     }
 };
