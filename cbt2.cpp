@@ -59,4 +59,18 @@ struct cbt
             }
         }
     }
+
+    void update(subunit &s, int value)
+    {
+        int p = s.loc; int diff = value - s.data;
+
+        for(int i = depth; i >= 0; i--)
+        {
+            tree[i][p] += diff;
+            p = p/2;
+        }
+
+        s.data = value;
+    }
+
 };
