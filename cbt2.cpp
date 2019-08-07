@@ -12,182 +12,43 @@
 */
 
 #include<iostream>
+#include<cmath>
+#include<vector>
 using namespace std;
 
-struct node
+struct subunit
 {
-    int data;          //field to store the value of the element
-    node *left,*right;  //link field to the child nodes
+    int data; // # of mototrs
+    int loc; // pointer to the tree position
+
+    subunit(int key)
+    {
+        data = key;
+    }
+
 };
 
-struct  cbt
+struct cbt
 {
-    node *root,*temp;   //root - Root pointer to the ROOT of the Tree, temp - Temporary node pointer  pointing to the node to be inserted
-public:
-        cbt();
-        inline node* get_root(){return root;}          //getter method for accessing root
+    vector<vector<int>> tree; int depth;
 
-        void accept(int);              //method to accept values to be inserted
-        node* insert(node*,node*);		//method to insert node in the binary tree
-		void remove(node*);
-        void display(node*);        //method to display the tree in InOrder traversal
-
-        int height(node*);          //method to get height of a given node
-        int bal(node*);             /*method to get the balance factor of a given node
-                                    [Balance Factor = Height of Left Sub-Tree - Height of Right Sub-Tree] */
-        bool check(node*);         //method to check any node with balance factor > 0
-	~cbt();
-};
-
-cbt :: cbt()
-{
-    //initializing root node to NULL
-    root = NULL;
-    temp = NULL;
-}
-
-bool cbt :: check(node *r)
-{
-    //traversing the nodes of the subtree to check any node with balance factor > 0
-    if(r == NULL)
-        return false;
-    bool x = check(r->left);
-    if(bal(r))
-        return true;
-    bool y = check(r->right);
-
-    return x||y;    //If any node present with balance factor > 0
-}
-
-void cbt :: accept(int t)
-{
-
-    for(int i=0;i<t;i++)
+    cbt(int max_size) // max_size is the maximum length the filament can get
     {
-        //creating a node to be inserted
-        temp = new node;
-        temp->left = NULL;
-        temp->right = NULL;
+        depth = (int) log2(max_size); int l; 
 
-        cout<<"\nEnter the element : ";
-        cin>>temp->data;
-
-        //inserting the current node in the tree
-        root = insert(root,temp); 
-    }
-}
-
-node* cbt :: insert(node* r,node* t)
-{
-    int b = bal(r);
-    t->left = NULL;
-    t->right = NULL;
-    //Inserting a node in the tree
-    if(r == NULL)
-    {
-        return t;
-    }    
-    else if(b==0 && check(r->right))  //Condition to insert node in the right sub-tree
-    {
-        r->data += t->data; 
-        r->right = insert(r->right,t);
-    }
-    else if(b==0)                      //condition to insert node in the left sub-tree
-    {
-        r->data += t->data;
-        r->left = insert(r->left,t);
-    }
-    else if(b==1 && check(r->left))   //condition to insert node in the left sub-tree
-    {
-        r->data += t->data;
-        r->left = insert(r->left,t);
-    }
-    else if(b==1)
-    {
-        r->data += t->data;    
-        r->right = insert(r->right,t);
-    }      //condition to insert node in right sub-tree
-
-    return r;
-}
-
-void cbt :: display(node *r)
-{
-    //Traversing the tree in InOrder way using recursion
-    if(r == NULL)
-        return;
-    display(r->left);
-    cout<<r->data<<"\t";
-    display(r->right);
-}
-int cbt :: height(node *r)
-{
-    if(r == NULL)
-        return 0;
-    else
-    {
-        int lheight = height(r->left)+1;
-        int rheight = height(r->right)+1;
-
-    return (lheight > rheight) ? lheight : rheight; //returns maximum height
-    }
-}
-
-int cbt :: bal(node *r)
-{
-        if(r == NULL)
-            return 0;
-        int lheight = height(r->left)+1;
-        int rheight = height(r->right)+1;
-
-        return (lheight - rheight); //[Balance Factor = Height of Left Sub-Tree - Height of Right Sub-Tree]
-}
-
-cbt :: ~cbt()
-{
-	delete root;
-	delete temp;
-}
-int main()
-{
-    cbt c;  //creating object of class cbt
-    int ch,t;
-    do
-    {
-        cout<<"\n\n\t| Complete Binary Tree |\n";
-        cout<<"\n1.Create";
-        cout<<"\n2.Insert";
-        cout<<"\n3.Display";
-        cout<<"\n4.Exit";
-        cout<<"\n>>";
-        cin>>ch;
-
-        switch(ch)
+        for(int i = 0; i <= depth; i++)
         {
-            case 1:
-                cout<<"\nEnter the total number of elements : ";
-                cin>>t;
-                c.accept(t);
-                break;
-            case 2:
-                c.accept(1);
-                break;
-            case 3:
-                if(c.get_root() == NULL)
-                {
-                    cout<<"\n\t**** Tree doesn't exist *****\n";
-                    break;
-                }
-                cout<<"\n\t| Tree Elements |\n\n";
-                c.display(c.get_root());
-                break;
-            case 4:
-                cout<<"\n\t**** EXIT ****\n";
-                break;
-            default:
-                cout<<"\n\t**** Invalid Choice ****\n";
-                break;
+            l = (int) pow(2,i);
+            tree.push_back(vector<int>(l,0));
         }
-    }while(ch != 4);
-    return 0;
-}
+    }
+
+    void init_tree(vector<subunit> &v)
+    {
+        for(int i = 0; i < v.size(); i++)
+        {
+            tree[depth][i/2] += v[i].data;
+            v[i].loc = i/2;
+        }
+    }
+};
