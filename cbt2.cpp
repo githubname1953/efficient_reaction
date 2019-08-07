@@ -49,7 +49,7 @@ struct cbt
         ll.resize(max_size, subunit(0));
     }
 
-    void init_tree(deque<int> dq)
+    void init_tree(deque<int> &dq)
     {
         for(int i = 0; i < ll.size(); i++)
         {
@@ -82,6 +82,13 @@ struct cbt
         }
 
         ll[pos].data = value;
+    }
+
+    void insert(deque<int> &dq)
+    {
+        ll.push_back(subunit(0));
+        ll[ll.size()-1].locp = dq.end() - 1;
+        // update(ll.size()-1,0); // only caal when the value is non-zero
     }
 
 };
