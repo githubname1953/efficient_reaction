@@ -14,12 +14,14 @@
 #include<iostream>
 #include<cmath>
 #include<vector>
+#include<deque>
+#include<algorithm>
 using namespace std;
 
 struct subunit
 {
     int data; // # of mototrs
-    int loc; // pointer to the tree position
+    deque<int>::iterator locp; // pointer to the tree position
 
     subunit(int key)
     {
@@ -31,8 +33,9 @@ struct subunit
 struct cbt
 {
     vector<vector<int>> tree; int depth;
+    vector<subunit> ll; // ll = last level of the tree
 
-    cbt(int max_size) // max_size is the maximum length the filament can get
+    cbt(int max_size, int init_size) // max_size is the maximum length the filament can get
     {
         depth = (int) log2(max_size); int l; 
 
@@ -41,14 +44,16 @@ struct cbt
             l = (int) pow(2,i);
             tree.push_back(vector<int>(l,0));
         }
+
+        ll.resize(max_size, subunit(0));
+        ll.resize(max_size, subunit(0));
     }
 
-    void init_tree(vector<subunit> &v)
+    void init_tree(deque<int> dq)
     {
-        for(int i = 0; i < v.size(); i++)
+        for(int i = 0; i < ll.size(); i++)
         {
-            tree[depth][i/2] += v[i].data;
-            v[i].loc = i/2;
+            tree[depth][i/2] += ll[i].data;
         }
 
         for(int i = depth-1; i >= 0; i--)
@@ -58,11 +63,17 @@ struct cbt
                 tree[i][j] = tree[i+1][2*j] + tree[i+1][2*j + 1];
             }
         }
+
+        for(int i = 0; i < ll.size(); i++)
+        {
+            ll[i].locp = dq.begin() + i;
+        }
     }
 
-    void update(subunit &s, int value)
-    {
-        int p = s.loc; int diff = value - s.data;
+    void update(int pos, int value)
+    { 
+        int diff = value - ll[pos].data;
+        int p = pos/2;
 
         for(int i = depth; i >= 0; i--)
         {
@@ -70,7 +81,7 @@ struct cbt
             p = p/2;
         }
 
-        s.data = value;
+        ll[pos].data = value;
     }
 
 };
