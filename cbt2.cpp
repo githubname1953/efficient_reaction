@@ -46,7 +46,7 @@ struct cbt
         }
 
         ll.resize(max_size, subunit(0));
-        ll.resize(max_size, subunit(0));
+        ll.resize(init_size, subunit(0));
     }
 
     void init_tree(deque<int> &dq)
@@ -100,8 +100,38 @@ struct cbt
     void insert(deque<int> &dq)
     {
         ll.push_back(subunit(0));
+        dq.push_back(ll.size()-1);
         ll[ll.size()-1].locp = dq.end() - 1;
         // update(ll.size()-1,0); // only caal when the value is non-zero
+    }
+
+    void remove(deque<int> &dq)
+    {
+        int pos = dq[0];
+        ll[pos].locp = ll[ll.size()-1].locp;
+        *ll[pos].locp = pos;
+        //ll[ll.size()-1].locp = dq.begin();
+        update(pos, ll[ll.size()-1].data);
+        update(ll.size()-1, 0);
+        dq.pop_front();
+        ll.pop_back();
+    }
+
+    void display()
+    {
+        for(int i=0;i<=depth;i++)
+        {
+            for(int j=0; j<tree[i].size();j++)
+            {
+                cout<<tree[i][j]<<'\t';
+            }
+            cout<<endl;
+        }
+        for(int i=0;i<ll.size();i++)
+        {
+            cout<<ll[i].data<<'\t';
+        }
+        cout<<endl;
     }
 
 };
