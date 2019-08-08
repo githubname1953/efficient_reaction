@@ -84,6 +84,19 @@ struct cbt
         ll[pos].data = value;
     }
 
+    void update1(int pos, int value)
+    { 
+        int p = pos/2;
+
+        for(int i = depth; i >= 0; i--)
+        {
+            tree[i][p] += value;
+            p = p/2;
+        }
+
+        ll[pos].data += value;
+    }
+
     void insert(deque<int> &dq)
     {
         ll.push_back(subunit(0));
