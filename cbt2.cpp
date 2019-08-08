@@ -132,6 +132,7 @@ struct cbt
             cout<<ll[i].data<<'\t';
         }
         cout<<endl;
+        
     }
 
 };

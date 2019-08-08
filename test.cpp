@@ -38,5 +38,20 @@ int main()
     for(int i=0; i<fil.size(); i++) cout<<fil[i]<<'\t';
     cout<<endl;
 
+    cout<<endl;
+    graph.remove(fil);
+
+    graph.display();
+    for(int i=0; i<fil.size(); i++) cout<<fil[i]<<'\t';
+    cout<<endl;
+
+    cout<<endl;
+    graph.insert(fil);
+
+    graph.display();
+    for(int i=0; i<fil.size(); i++) cout<<fil[i]<<'\t';
+    cout<<endl;
+    cout<<*(graph.ll[graph.ll.size()-1].locp)<<endl;
+
     return 0;
 }
