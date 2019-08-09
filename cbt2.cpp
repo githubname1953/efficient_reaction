@@ -33,6 +33,7 @@ struct subunit
 struct cbt
 {
     vector<vector<int>> tree; int depth;
+    deque<int>:: iterator next; 
     vector<subunit> ll; // ll = last level of the tree
 
     cbt(int max_size, int init_size) // max_size is the maximum length the filament can get
@@ -117,9 +118,9 @@ struct cbt
         ll.pop_back();
     }
 
-    void transport(int &n)
+    void transport(int &n, deque<int> &dq)
     {
-        int j = 0; int next;
+        int j = 0;
         for(int i = 0; i <= depth; i++)
         {
             if(n <= tree[i][j])
@@ -136,9 +137,9 @@ struct cbt
         if(n <= ll[2*j].data) j = 2*j;
         else j = 2*j+1;
 
-        next = *(ll[j].locp++); 
+        next = ll[j].locp+1; 
         update1(j,-1);
-        update1(next,1);
+        if(next!=dq.end()) update1(*next,1);
     }
 
     void display()
