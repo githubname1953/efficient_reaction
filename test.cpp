@@ -37,6 +37,7 @@ int main()
     graph.display();
     for(int i=0; i<fil.size(); i++) cout<<fil[i]<<'\t';
     cout<<endl;
+    cout<<*(graph.ll[0].locp)<<endl;
 
     cout<<endl;
     graph.remove(fil);
