@@ -21,14 +21,14 @@ To make things easier, we define a small struct called subunit.
 #include<iostream>
 #include<cmath>
 #include<vector>
-#include<deque>
+#include <boost/circular_buffer.hpp>
 #include<algorithm>
 using namespace std;
 
 struct subunit
 {
     int data; // # of motors
-    deque<int>::iterator locp; // pointer to the tree position
+    boost::circular_buffer<int>::iterator locp; // pointer to the tree position
 
     subunit(int key)
     {
@@ -40,7 +40,7 @@ struct subunit
 struct cbt
 {
     vector<vector<int>> tree; int depth;
-    deque<int>:: iterator next; 
+    boost::circular_buffer<int>::iterator next; 
     vector<subunit> ll; // ll = last level of the tree
 
     cbt(int max_size, int init_size) // max_size is the maximum length the filament can get
@@ -57,7 +57,7 @@ struct cbt
         ll.resize(init_size, subunit(0));
     }
 
-    void init_tree(deque<int> &dq)
+    void init_tree(boost::circular_buffer<int> &dq)
     {
         for(int i = 0; i < ll.size(); i++)
         {
@@ -105,7 +105,7 @@ struct cbt
         ll[pos].data += value;
     }
 
-    void insert(deque<int> &dq)
+    void insert(boost::circular_buffer<int> &dq)
     {
         ll.push_back(subunit(0));
         dq.push_back(ll.size()-1);
@@ -113,7 +113,7 @@ struct cbt
         // update(ll.size()-1,0); // only caal when the value is non-zero
     }
 
-    void remove(deque<int> &dq)
+    void remove(boost::circular_buffer<int> &dq)
     {
         int pos = dq[0];
         ll[pos].locp = ll[ll.size()-1].locp;
@@ -125,7 +125,7 @@ struct cbt
         ll.pop_back();
     }
 
-    void transport(int &n, int &state, deque<int> &dq)
+    void transport(int &n, int &state, boost::circular_buffer<int> &dq)
     {
         int j = 0;
         for(int i = 0; i < depth; i++)

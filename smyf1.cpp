@@ -7,6 +7,7 @@
 #include<chrono>
 #include<string>
 //#include<boost/random.hpp>
+#include <boost/circular_buffer.hpp>
 #include "pcg_random.hpp"
 #include "cbt2.cpp"
 using namespace std;
@@ -22,8 +23,8 @@ int main()
     const int Nmax = 8000; const int Ninit = 1000; int len;
 
     int s=1; int N=0; // N is the # of motors on the filament
-    deque<int> fil(Ninit);
-    for(int i=0; i<Ninit; i++) fil[i]=i;
+    boost::circular_buffer<int> fil(Nmax);
+    for(int i=0; i<Ninit; i++) fil.push_back(i);
     cbt graph(Nmax,Ninit);
     graph.init_tree(fil);
 
