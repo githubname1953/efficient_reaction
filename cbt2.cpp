@@ -117,6 +117,30 @@ struct cbt
         ll.pop_back();
     }
 
+    void transport(int &n)
+    {
+        int j = 0; int next;
+        for(int i = 0; i <= depth; i++)
+        {
+            if(n <= tree[i][j])
+            {
+                j = 2*j;
+            }
+            else
+            {
+                n -= tree[i][j];
+                j = 2*j + 1;
+            } 
+        }
+
+        if(n <= ll[2*j].data) j = 2*j;
+        else j = 2*j+1;
+
+        next = *(ll[j].locp++); 
+        update1(j,-1);
+        update1(next,1);
+    }
+
     void display()
     {
         for(int i=0;i<=depth;i++)
