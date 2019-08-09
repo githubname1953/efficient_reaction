@@ -121,15 +121,15 @@ struct cbt
     void transport(int &n, deque<int> &dq)
     {
         int j = 0;
-        for(int i = 0; i <= depth; i++)
+        for(int i = 0; i < depth; i++)
         {
-            if(n <= tree[i][j])
+            if(n <= tree[i+1][2*j])
             {
                 j = 2*j;
             }
             else
             {
-                n -= tree[i][j];
+                n -= tree[i+1][2*j];
                 j = 2*j + 1;
             } 
         }
@@ -137,7 +137,7 @@ struct cbt
         if(n <= ll[2*j].data) j = 2*j;
         else j = 2*j+1;
 
-        next = ll[j].locp+1; 
+        next = ll[j].locp + 1; 
         update1(j,-1);
         if(next!=dq.end()) update1(*next,1);
     }

@@ -8,6 +8,7 @@ using namespace std;
 
 int main()
 {
+    int N=2;
     deque<int> fil(10);
     for(int i=0; i<10; i++) fil[i]=i;
     cbt graph(18,10);
@@ -26,6 +27,13 @@ int main()
 
     cout<<endl;
     graph.update1(fil[0],1);
+
+    graph.display();
+    for(int i=0; i<10; i++) cout<<fil[i]<<'\t';
+    cout<<endl;
+
+    cout<<endl;
+    graph.transport(N,fil);
 
     graph.display();
     for(int i=0; i<10; i++) cout<<fil[i]<<'\t';
