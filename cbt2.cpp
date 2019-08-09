@@ -118,7 +118,7 @@ struct cbt
         ll.pop_back();
     }
 
-    void transport(int &n, deque<int> &dq)
+    void transport(int &n, int &state, deque<int> &dq)
     {
         int j = 0;
         for(int i = 0; i < depth; i++)
@@ -140,6 +140,7 @@ struct cbt
         next = ll[j].locp + 1; 
         update1(j,-1);
         if(next!=dq.end()) update1(*next,1);
+        else state = 0;
     }
 
     void display()

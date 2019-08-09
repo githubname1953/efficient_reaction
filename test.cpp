@@ -8,7 +8,7 @@ using namespace std;
 
 int main()
 {
-    int N=2;
+    int N=2; int s=1;
     deque<int> fil(10);
     for(int i=0; i<10; i++) fil[i]=i;
     cbt graph(18,10);
@@ -33,7 +33,7 @@ int main()
     cout<<endl;
 
     cout<<endl;
-    graph.transport(N,fil);
+    graph.transport(N,s,fil);
 
     graph.display();
     for(int i=0; i<10; i++) cout<<fil[i]<<'\t';
