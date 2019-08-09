@@ -1,14 +1,21 @@
 
 /*
-    C++ Program to create a Complete Binary Tree.
-    -Ajinkya Sonawane [AJ-CODE-7]
-
     In a complete binary tree every level, except possibly the last, is completely filled,
     and all nodes in the last level are as far left as possible.
     It can have between 1 and 2h nodes at the last level h.
     An alternative definition is a perfect tree whose rightmost leaves (perhaps all) have been removed.
     Some authors use the term complete to refer instead to a perfect binary tree as defined above,
     in which case they call this type of tree an almost complete binary tree or nearly complete binary tree.
+*/
+
+/* NOTE: HOW THE CODE WORKS
+Below is a shitty version of a complete binary tree for length changing filaments.
+
+We need to know the maximum length the filament can reach beforehand to initialize the tree as all the 
+values(# no of motors) of the filament subunits are ensured to be at the bottommost level of the tree.
+
+To make things easier, we define a small struct called subunit.   
+
 */
 
 #include<iostream>
@@ -20,7 +27,7 @@ using namespace std;
 
 struct subunit
 {
-    int data; // # of mototrs
+    int data; // # of motors
     deque<int>::iterator locp; // pointer to the tree position
 
     subunit(int key)

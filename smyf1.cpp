@@ -18,8 +18,8 @@ int main()
 
     random_device rd; pcg32 pg(rd()); uniform_real_distribution<double> dist(0.0,1.0);
     double t=2*500000000; int inc=1000000; long int times=(long int) t/inc;
-    int i,j; double ks, kt; double r1; int i1=0,i2=0,i3; double mean=0; double sig=0;
-    const int Nmax = 4000; const int Ninit = 1000; int len;
+    long long int i,j; double ks, kt; double r1; int i1=0,i2=0,i3; double mean=0; double sig=0;
+    const int Nmax = 8000; const int Ninit = 1000; int len;
 
     int s=1; int N=0; // N is the # of motors on the filament
     deque<int> fil(Ninit);
