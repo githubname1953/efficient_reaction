@@ -25,6 +25,11 @@ To make things easier, we define a small struct called subunit.
 #include<algorithm>
 using namespace std;
 
+inline unsigned int id(unsigned int i, unsigned int j)
+{
+    return ((1<<i)^1) + j;
+} 
+
 struct subunit
 {
     int data; // # of motors
@@ -39,7 +44,7 @@ struct subunit
 
 struct cbt
 {
-    int* nodes; int** tree; int depth; long long int size;
+    int* tree; int depth; long long int size;
     boost::circular_buffer<int>::iterator next; 
     vector<subunit> ll; // ll = last level of the tree
 
@@ -47,12 +52,8 @@ struct cbt
     {
         depth = (int) log2(max_size); int l;
         size = (long long int) pow(2,depth+1); size--;
-        nodes = new int[size];
-        tree = new int*[depth+1];
-        for(int i=0; i<=depth; i++)
-        {
-            tree[i] = nodes + (long long int) (pow(2,i) - 1);
-        } 
+        tree = new int[size];
+        for(int i = 0; i < size; i++) tree[i] = 0;
 
         ll.resize(max_size, subunit(0));
         ll.resize(init_size, subunit(0));
@@ -62,16 +63,16 @@ struct cbt
     {
         for(int i = 0; i < ll.size(); i++)
         {
-            tree[depth][i/2] += ll[i].data;
+            tree[id(depth,i/2)] += ll[i].data;
         }
 
-        for(int i = depth-1; i >= 0; i--)
-        {
-            for(int j = 0; j < pow(2,i); j++)
-            {
-                tree[i][j] = tree[i+1][2*j] + tree[i+1][2*j + 1];
-            }
-        }
+        // for(int i = depth-1; i >= 0; i--)
+        // {
+        //     for(int j = 0; j < pow(2,i); j++)
+        //     {
+        //         tree[id(i,j)] = tree[id(i+1,2*j)] + tree[id(i+1,2*j + 1)];
+        //     }
+        // }
 
         for(int i = 0; i < ll.size(); i++)
         {
@@ -86,7 +87,7 @@ struct cbt
 
         for(int i = depth; i >= 0; i--)
         {
-            tree[i][p] += diff;
+            tree[id(i,p)] += diff;
             p = p/2;
         }
 
@@ -99,7 +100,7 @@ struct cbt
 
         for(int i = depth; i >= 0; i--)
         {
-            tree[i][p] += value;
+            tree[id(i,p)] += value;
             p = p/2;
         }
 
@@ -131,13 +132,13 @@ struct cbt
         int j = 0;
         for(int i = 0; i < depth; i++)
         {
-            if(n <= tree[i+1][2*j])
+            if(n <= tree[id(i+1,2*j)])
             {
                 j = 2*j;
             }
             else
             {
-                n -= tree[i+1][2*j];
+                n -= tree[id(i+1,2*j)];
                 j = 2*j + 1;
             } 
         }
@@ -151,27 +152,26 @@ struct cbt
         else state = 0;
     }
 
-    void display()
-    {
-        for(int i=0;i<=depth;i++)
-        {
-            for(int j=0; j<pow(2,i);j++)
-            {
-                cout<<tree[i][j]<<'\t';
-            }
-            cout<<endl;
-        }
-        for(int i=0;i<ll.size();i++)
-        {
-            cout<<ll[i].data<<'\t';
-        }
-        cout<<endl;
+    // void display()
+    // {
+    //     for(int i=0;i<=depth;i++)
+    //     {
+    //         for(int j=0; j<pow(2,i);j++)
+    //         {
+    //             cout<<tree[i][j]<<'\t';
+    //         }
+    //         cout<<endl;
+    //     }
+    //     for(int i=0;i<ll.size();i++)
+    //     {
+    //         cout<<ll[i].data<<'\t';
+    //     }
+    //     cout<<endl;
         
-    }
+    // }
 
     ~cbt()
     {
-        delete nodes;
         delete tree;
     }
 
