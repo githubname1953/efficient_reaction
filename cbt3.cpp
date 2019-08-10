@@ -111,7 +111,7 @@ struct cbt
         ll.push_back(subunit(0));
         dq.push_back(ll.size()-1);
         ll[ll.size()-1].locp = dq.end() - 1;
-        // update(ll.size()-1,0); // only caal when the value is non-zero
+        // update(ll.size()-1,0); // only call when the value is non-zero
     }
 
     void remove(boost::circular_buffer<int> &dq)
