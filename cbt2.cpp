@@ -45,11 +45,11 @@ struct cbt
 
     cbt(int max_size, int init_size) // max_size is the maximum length the filament can get
     {
-        depth = (int) log2(max_size); int l; 
+        depth = (int) log2(max_size); unsigned int l; 
 
         for(int i = 0; i <= depth; i++)
         {
-            l = (int) pow(2,i);
+            l = (unsigned int) pow(2,i);
             tree.push_back(vector<int>(l,0));
         }
 
