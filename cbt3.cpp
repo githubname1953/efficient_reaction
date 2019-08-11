@@ -83,12 +83,12 @@ struct cbt
     void update(int pos, int value)
     { 
         int diff = value - ll[pos].data;
-        int p = pos/2;
+        int p = pos>>1;
 
         for(int i = depth; i >= 0; i--)
         {
             tree[id(i,p)] += diff;
-            p = p/2;
+            p = p>>1;
         }
 
         ll[pos].data = value;
@@ -96,12 +96,12 @@ struct cbt
 
     void update1(int pos, int value)
     { 
-        int p = pos/2;
+        int p = pos>>1;
 
         for(int i = depth; i >= 0; i--)
         {
             tree[id(i,p)] += value;
-            p = p/2;
+            p = p>>1;
         }
 
         ll[pos].data += value;
