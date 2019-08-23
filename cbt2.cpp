@@ -14,7 +14,21 @@ Below is a shitty version of a complete binary tree for length changing filament
 We need to know the maximum length the filament can reach beforehand to initialize the tree as all the 
 values(# no of motors) of the filament subunits are ensured to be at the bottommost level of the tree.
 
-To make things easier, we define a small struct called subunit.   
+To make things easier, we define a small struct called subunit. It contains two attributes, data to store the # of motors and
+a pointer to the filament location and the last level of the tree is a vector of subunits. This is necessary for implementing 
+the remove method of tree.
+
+The filament is a boost::circular_buffer<int> and each element of the filament holds the position of the subunit in the vector 
+whose pointer points to the element.
+
+The tree (cbt struct) contains a vector<vector<int>> to contain all but the last level of the tree, a vector<subunit> as the last 
+level of the tree (as discussed before) and a helper attribute depth. 
+
+The update methods update the tree with the given value in a bottom to top fashion. The insert method inserts an element both to the 
+end of the filament and the last level of the tree. The remove method removes the front element of the filament and the righmost element 
+of the tree in the last level. 
+
+The transport method is model dependent. It finds out the subunit to travel from based on the input and then updates the tree as necessary.
 
 */
 
@@ -28,7 +42,7 @@ using namespace std;
 struct subunit
 {
     int data; // # of motors
-    boost::circular_buffer<int>::iterator locp; // pointer to the tree position
+    boost::circular_buffer<int>::iterator locp; // pointer to the filament location
 
     subunit(int key)
     {
