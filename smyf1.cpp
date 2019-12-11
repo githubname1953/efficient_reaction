@@ -9,7 +9,7 @@
 //#include<boost/random.hpp>
 #include <boost/circular_buffer.hpp>
 #include "pcg_random.hpp"
-#include "cbt2.cpp"
+#include "cbt4.cpp"
 using namespace std;
 
 int main()
