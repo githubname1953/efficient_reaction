@@ -42,7 +42,7 @@ using namespace std;
 struct subunit
 {
     int data; // # of motors
-    int loc; // the filament location
+    unsigned long long int loc; // the filament location
 
     subunit(int key)
     {
@@ -55,7 +55,7 @@ struct cbt
 {
     vector<vector<int>> tree; int depth;
     vector<subunit> ll; // ll = last level of the tree
-    int lo;
+    unsigned long long int lo;
     int next;
 
     cbt(int max_size, int init_size) // max_size is the maximum length the filament can get
